@@ -22,7 +22,7 @@ def passengerIteration():
             new_seat = random.choice(validation)
             airPlaneSeats[new_seat] = True
             validation.remove(new_seat)
-    lastPassenger = airPlaneSeats[99]
+    lastPassenger = passengerSeats[99]
     if (lastPassenger == validation[0]):
         return True
     else:

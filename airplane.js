@@ -2,60 +2,56 @@
 
 // NOTE: This smells like a statistics problem, but really it isn't. I'm not looking for any fancy mathy solution, just from a practical, brute-force, iterating-through-each-passenger-boarding implementation, how often does the last person to board keep their assigned seat?
 
-let seating_chart = {};
-let seats = shuffle([...generateArray(100)]);
-let drunkPassenger = Math.floor(Math.random() * 100);
-let passengers = [...generateArray(99)];
+const shuffle = require("shuffle-array");
 
-passengers.forEach(person => {
-  seating_chart[person] = seats[person];
-});
-// Remove Drunk person Seat
-seats = seats.filter(chair => chair !== drunkPassenger);
-
-// Shuffling the contents of Array
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+function drunkSeats() {
+  let airplaneSeats = new Array(100);
+  airplaneSeats.fill(false);
+  let passengerSeats = [];
+  for (let i = 0; i < 99; i++) {
+    passengerSeats.push(i);
   }
-  return a;
-}
+  let drunkMan = Math.floor(Math.random() * 99);
+  passengerSeats.unshift(drunkMan);
 
-// Generating an array of n lenght
-function generateArray(n) {
-  let arr = [];
-  for (let i = 0; i < n; i++) {
-    arr.push(i);
-    // console.log(arr);
-  }
-  return arr;
-}
+  passengerSeats = shuffle(passengerSeats);
+  let lastPerson = passengerSeats[99];
+  let validation = [...passengerSeats];
+  validation = shuffle(validation);
+  let otherPassengers = [...passengerSeats];
+  otherPassengers.pop();
 
-// Boarding Passengers
-const boarding = Object.keys(seating_chart);
-let newSeats = [];
-
-for (let i = 0; i < seats.length; i++) {
-  boarding.forEach(person => {
-    if (person == seats[i]) {
-      seats.splice(i, 1);
-      newSeats.push(seats[i]);
-    } else if (person != seats[i]) {
-      let j = seats.length;
-      console.log(j);
-      let n = Math.floor(Math.random() * j);
-      seats.splice(i, 1);
-      newSeats.push(seats[i]);
+  for (let i = 0; i < otherPassengers.length; i++) {
+    if (airplaneSeats[i] == false) {
+      airplaneSeats[i] = true;
+      validation.splice(i, 1);
+    } else {
+      let new_seat = validation[Math.floor(Math.random() * validation.length)];
+      airplaneSeats[new_seat] = true;
+      validation.splice(new_seat, 1);
     }
-  });
+  }
+  if (lastPerson == validation[0]) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
-// console.log(newSeats);
-// // let list2 = [];
-// // for (let i = 0; i < 100; i++) {
-// //   if (!seats.contains(i)) {
-// //     list2.push(i);
-// //   }
-// // }
-// // console.log(list2);
+let count = 0;
+let got = 0;
+let nah = 0;
+
+while (count < 100) {
+  let result = drunkSeats();
+  if (result == false) {
+    nah += 1;
+  } else {
+    got += 1;
+  }
+  count++;
+  console.log("got it ");
+  console.log(got);
+  console.log("lost");
+  console.log(nah);
+}

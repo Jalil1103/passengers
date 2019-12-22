@@ -1,0 +1,22 @@
+{
+  "name": "state-auto",
+  "version": "1.0.0",
+  "description": "100 passenger stats problem",
+  "main": "airplane.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jalil1103/passengers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jalil1103/passengers/issues"
+  },
+  "homepage": "https://github.com/Jalil1103/passengers#readme",
+  "dependencies": {
+    "shuffle-array": "^1.0.1"
+  }
+}
